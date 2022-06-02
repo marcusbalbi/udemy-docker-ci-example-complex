@@ -31,16 +31,20 @@ app.get("/", (req, res) => {
   res.send("hi");
 });
 
-app.get('values/all', async (req, res) => {
+app.get('/values/all', async (req, res) => {
   const values = await pgClient.query('SELECT * FROM values');
 
   res.send(values.rows);
 });
 
-app.get('/values/current', async () => {
-  const data = await redisClient.hGetAll('values');
-
-  res.send(data);
+app.get('/values/current', async (req, res) => {
+  try {
+    const data = await redisClient.hGetAll('values');
+    res.send(data);
+  } catch(err) {
+    console.log('fail', err);
+    res.status(500).send(err);
+  }
 });
 
 app.post('/values', async (req, res) => {
@@ -53,19 +57,15 @@ app.post('/values', async (req, res) => {
   await redisClient.hSet('values', index, 'Nothing yet');
   await redisPublisher.publish('insert', index);
 
-  pgClient.query('INSERT INTO values(number) VALUES($1', [index]);
+  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
 
 
   res.send({ working: true });
-
-
-
-
 })
 
 const redisPublisher = redisClient.duplicate();
 
-app.listen(process.env.PORT || 5000, async () => {
+app.listen(5000, async () => {
   await redisClient.connect();
   await redisPublisher.connect();
   console.log('server listening...')
