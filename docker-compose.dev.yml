@@ -1,13 +1,24 @@
 version: '3'
 
 services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+    depends_on:
+      - api
+      - client
+
   postgres:
     image: 'postgres:latest'
     environment:
       - POSTGRES_PASSWORD=secret
   redis:
     image: 'redis:latest'
-  server:
+  api:
     build:
       dockerfile: Dockerfile.dev
       context: ./server
@@ -22,6 +33,9 @@ services:
       - PG_DATABASE=postgres
       - PG_PASSWORD=secret
       - PG_PORT=5432
+    depends_on:
+      - postgres
+      - redis
   client:
     build:
       dockerfile: Dockerfile.dev
@@ -39,3 +53,6 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
