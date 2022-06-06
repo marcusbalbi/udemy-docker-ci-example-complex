@@ -36,8 +36,6 @@ services:
     depends_on:
       - postgres
       - redis
-    ports:
-      - "5000:5000"
   client:
     build:
       dockerfile: Dockerfile.dev
@@ -45,6 +43,8 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    environment:
+      - WDS_SOCKET_PORT=0=value
   worker:
     build:
       dockerfile: Dockerfile.dev
