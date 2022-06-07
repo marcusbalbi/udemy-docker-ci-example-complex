@@ -22,6 +22,8 @@ const Fib = () => {
     await axios.post('/api/values', { index: index });
 
     setIndex('');
+    fetchValues();
+    fetchIndexes();
   }
 
   useEffect(() => {

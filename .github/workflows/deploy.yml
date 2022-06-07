@@ -73,7 +73,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_SECRET_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: udemy-docker-ci-example-complex
-          environment_name: Udemydockerciexamplecomplex-env
+          environment_name: Udemydockerciexamplecomplex-env-1
           version_label: "udemy-docker-ci-example-complex${{ steps.format-time.outputs.replaced }}"
           region: us-east-1
           deployment_package: deploy.zip
