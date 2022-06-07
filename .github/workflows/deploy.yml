@@ -23,25 +23,25 @@ jobs:
         with:
           context: ./client
           push: true
-          tags: marcusbalbi/udemy-docker-ci-example-complex-client:$(date +%s)
+          tags: marcusbalbi/udemy-docker-ci-example-complex-client:latest
       -
         name: Build and push nginx
         uses: docker/build-push-action@v3
         with:
           context: ./nginx
           push: true
-          tags: marcusbalbi/udemy-docker-ci-example-complex-nginx:$(date +%s)
+          tags: marcusbalbi/udemy-docker-ci-example-complex-nginx:latest
       -
         name: Build and push server
         uses: docker/build-push-action@v3
         with:
           context: ./server
           push: true
-          tags: marcusbalbi/udemy-docker-ci-example-complex-server:$(date +%s)
+          tags: marcusbalbi/udemy-docker-ci-example-complex-server:latest
       -
         name: Build and push worker
         uses: docker/build-push-action@v3
         with:
           context: ./worker
           push: true
-          tags: marcusbalbi/udemy-docker-ci-example-complex-worker:$(date +%s)
+          tags: marcusbalbi/udemy-docker-ci-example-complex-worker:latest
