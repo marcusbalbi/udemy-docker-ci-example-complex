@@ -46,6 +46,7 @@ jobs:
           push: true
           tags: marcusbalbi/udemy-docker-ci-example-complex-worker:latest
   deploy:
+    needs: docker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
