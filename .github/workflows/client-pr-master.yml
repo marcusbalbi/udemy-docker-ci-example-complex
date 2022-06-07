@@ -1,0 +1,18 @@
+name: client-pipeline-pr-master
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build Docker image and run tests
+      run:  |
+        docker build . --file ./client/Dockerfile.dev --tag marcusbalbi/udemy-docker-ci-example-complex-client:test
+        docker run -e CI=true marcusbalbi/udemy-docker-ci-example-complex-client:test npm run test
