@@ -25,9 +25,6 @@ services:
     environment:
       - REDIS_HOST=$REDIS_HOST
       - REDIS_PORT=$REDIS_PORT
-    depends_on:
-      - postgres
-      - redis
   nginx:
     image: "marcusbalbi/udemy-docker-ci-example-complex-nginx"
     restart: always
