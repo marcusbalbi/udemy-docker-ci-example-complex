@@ -50,8 +50,8 @@ app.get('/values/current', async (req, res) => {
 app.post('/values', async (req, res) => {
   const { index } = req.body;
 
-  if(parseInt(index) > 40) {
-    return res.status(422).send('value for index too high')
+  if (parseInt(index) > 40 || isNaN(parseInt(index))) {
+    return res.status(422).send("value for index invalid or too high");
   }
 
   await redisClient.hSet('values', index, 'Nothing yet');
