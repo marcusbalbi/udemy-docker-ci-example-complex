@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  client:
+    image: "marcusbalbi/udemy-docker-ci-example-complex-client:latest"
+    mem_limit: 128m
+    hostname: client
+
+  api:
+    image: "marcusbalbi/udemy-docker-ci-example-complex-server"
+    mem_limit: 128m
+    hostname: api
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PG_USER=$PG_USER
+      - PG_HOST=$PG_HOST
+      - PG_DATABASE=$PG_DATABASE
+      - PG_PASSWORD=$PG_PASSWORD
+      - PG_PORT=$PG_PORT
+  worker:
+    image: "marcusbalbi/udemy-docker-ci-example-complex-worker"
+    mem_limit: 128m
+    hostname: worker
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+    depends_on:
+      - postgres
+      - redis
+  nginx:
+    image: "marcusbalbi/udemy-docker-ci-example-complex-nginx"
+    restart: always
+    ports:
+      - "80:80"
