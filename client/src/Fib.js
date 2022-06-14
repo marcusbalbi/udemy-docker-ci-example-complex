@@ -16,7 +16,7 @@ const Fib = () => {
   const fetchIndexes = async () => {
     const seenIndexes = await axios.get("/api/values/all");
     if (seenIndexes && seenIndexes.data) {
-      setValues(values.data);
+      setSeenIndexrs(values.data);
     }
   };
 
