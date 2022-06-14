@@ -8,17 +8,28 @@ const Fib = () => {
 
   const fetchValues = async () => {
     const values = await axios.get("/api/values/current");
-    if (values && values.data) {
+    if (isValidData(values)) {
       setValues(values.data);
     }
   };
 
   const fetchIndexes = async () => {
     const seenIndexes = await axios.get("/api/values/all");
-    if (seenIndexes && seenIndexes.data) {
-      setSeenIndexrs(values.data);
+    if (isValidData(seenIndexes)) {
+      setSeenIndexrs(seenIndexes.data);
     }
   };
+
+  const isValidData = (resp) => {
+    if (!resp) { return false; }
+    if (resp.status !== 200) { return false; }
+    if (!resp.data) { return false; }
+    const { headers } = resp;
+    if (!headers['content-type'] || headers['content-type'].includes('html')) {
+      return false;
+    }
+    return true;
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
