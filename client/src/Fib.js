@@ -7,13 +7,17 @@ const Fib = () => {
   const [index, setIndex] = useState("");
 
   const fetchValues = async () => {
-    const values = await axios.get("/api/values/current") || { data: {} };
-    setValues(values.data);
+    const values = await axios.get("/api/values/current");
+    if (values && values.data) {
+      setValues(values.data);
+    }
   };
 
   const fetchIndexes = async () => {
-    const seenIndexes = await axios.get("/api/values/all") || { data: [] };
-    setSeenIndexrs(seenIndexes.data);
+    const seenIndexes = await axios.get("/api/values/all");
+    if (seenIndexes && seenIndexes.data) {
+      setValues(values.data);
+    }
   };
 
   const handleSubmit = async (event) => {
