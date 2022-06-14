@@ -2,7 +2,7 @@ name: pipeline-pr-master
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ change-to-master ]
 
 jobs:
 
