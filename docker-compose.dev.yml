@@ -44,7 +44,7 @@ services:
       - /app/node_modules
       - ./client:/app
     environment:
-      - WDS_SOCKET_PORT=0=value
+      - WDS_SOCKET_PORT=3050
   worker:
     build:
       dockerfile: Dockerfile.dev
