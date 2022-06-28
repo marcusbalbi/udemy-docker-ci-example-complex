@@ -48,19 +48,22 @@ app.get('/values/current', async (req, res) => {
 });
 
 app.post('/values', async (req, res) => {
-  const { index } = req.body;
+  try {
+    const { index } = req.body;
+    if (parseInt(index) > 40 || isNaN(parseInt(index))) {
+      return res.status(422).send("value for index invalid or too high");
+    }
 
-  if (parseInt(index) > 40 || isNaN(parseInt(index))) {
-    return res.status(422).send("value for index invalid or too high");
+    await redisClient.hSet('values', index, 'Nothing yet');
+    await redisPublisher.publish('insert', index);
+
+    pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
+
+    res.send({ working: true });
+  } catch (err) {
+    console.log('failed to post value', index, 'error:', err);
+    res.status(500).send({ error: err });
   }
-
-  await redisClient.hSet('values', index, 'Nothing yet');
-  await redisPublisher.publish('insert', index);
-
-  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
-
-
-  res.send({ working: true });
 })
 
 const redisPublisher = redisClient.duplicate();
